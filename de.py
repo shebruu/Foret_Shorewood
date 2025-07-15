@@ -9,5 +9,7 @@ class De:
     def minimum(self):
         return self._min
     @property
-    def max(self):
+    def maximum(self):
         return self._max
+    def lancer_de(self):
+        return random.randint(self._min, self._max)

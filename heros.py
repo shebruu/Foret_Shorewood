@@ -1,18 +1,24 @@
 from abc import ABC
 from personnage import Personnage
-from monstres import Monstre
+from de import De
 import random
 
 types_heros=["humain", "nain"]
 class Heros(Personnage):
     def __init__(self,force,endurance,points_vie,type_heros):
        Personnage.__init__(self,force,endurance,points_vie)
-       self._st_richesse = 0
+       self._richesse_or = 0
+       self._richesse_cuir = 0
+
        self._typ=type_heros
 
     @property
-    def richesse(self):
-        return self._st_richesse
+    def richesse_or(self):
+        return self._richesse_or
+
+    @property
+    def richesse_cuir(self):
+        return self._richesse_cuir
     @property
     def type_heros(self):
         return self._typ
@@ -30,19 +36,54 @@ class Heros(Personnage):
             bonus = 2
         return  bonus
 
-    def frappe(self,cible):
-        rand = random.randint(1, 4)
-        degats= self.modificateur_force() + rand
-        if cible.points_vie>0:
-               cible.points_vie -=degats
-        return degats
+    def frappe(self, cible: "Monstre"):
+        de4 = De(1, 4)
+        rand=de4.lancer_de()
 
-    def depouiller(self,cible):
-        if cible.points_vie<=0:
-            self._st_richesse +=cible.richesse
-            cible.richesse=0
+        dommages = self.modificateur_force() + rand
+        if cible.points_vie > 0:
+            cible.points_vie = max(0, cible.points_vie - dommages)
+            if cible.points_vie < 0:
+                cible.points_vie = 0
+        return dommages
+
+
+
+    def depouiller(self, cible):
+        if cible.points_vie > 0:
+            print("Impossible de dépouiller un monstre encore vivant !")
+            return
+
+        # Accès via le dictionnaire 'richesse'
+        self._richesse_or += cible.richesse["or"]
+        self._richesse_cuir += cible.richesse["cuir"]
+        cible.richesse["or"] = 0
+        cible.richesse["cuir"] = 0
+
+    def restaurer_points_vie(self):
+        self._points_vie = self.calculer_points_de_vie()
+    def __str__(self):
+        return f"{self.type_heros.capitalize()} - For: {self.force}, End: {self.endurance}, PV: {self.points_vie}, Or: {self.richesse_or}, Cuir: {self.richesse_cuir}"
 
 if __name__ == '__main__':
-    hero1 = Heros(force=12, endurance=10, points_vie=22, type_heros="humain")
-    monstre1 = Monstre(force=12, endurance=10,points_vie=22, monstre="orques")
+    from monstres import Monstre  # décalé ici pour éviter la boucle
 
+    hero1 = Heros(force=12, endurance=10, points_vie=22, type_heros="humain")
+    monstre1 = Monstre(force=12, endurance=10, points_vie=22, monstre="orques")
+
+    print("=== Test de combat ===")
+    print(f"Héros : {hero1}")
+    print(f"Cible : PV = {monstre1.points_vie}, Or = {monstre1.richesse['or']}, Cuir = {monstre1.richesse['cuir']}")
+
+    # Combat
+    while monstre1.points_vie > 0:
+        degats = hero1.frappe(monstre1)
+        print(f"Frappe : {degats} dégâts, PV cible = {monstre1.points_vie}")
+
+    print(f"\nCible finale : PV = {monstre1.points_vie}")
+
+    # Test de dépouillement
+    print(f"\nRichesse du héros avant : Or = {hero1.richesse_or}, Cuir = {hero1.richesse_cuir}")
+    hero1.depouiller(monstre1)
+    print(f"Richesse du héros après : Or = {hero1.richesse_or}, Cuir = {hero1.richesse_cuir}")
+    print(f"Richesse restante cible : Or = {monstre1.richesse['or']}, Cuir = {monstre1.richesse['cuir']}")

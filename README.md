@@ -14,27 +14,104 @@ Chaque Personnage a une Endurance, Force, Points de vie. À chaque tour, 4 dés 
 - Gere le dépouillage de richesse des monstres
 - Menus de tests et scénarios dans `main.py`
 
+
+          Personnage (classe abstraite)
+               ▲            ▲
+          Heros         Monstre
+           ▲  ▲           ▲   ▲
+        Humain Nain   Loup Orque Dragonnet
+
+
+
 classes abstraite
-Personnages (Endurance, Force)
-@abstractMethod
-+calculerpointsdevie(endurance_modificateur)
-+frappe(Force_modificateur)
-+estmort()
+Personnage (abstract)
+-------------------------------
+- _endurance : int
+- _force : int
+- _points_vie : int
+- x : int
+- y : int
+-------------------------------
++ endurance : int (lecture seule)
++ force : int (lecture seule)
++ points_vie : int (lecture seule ou private)
++ modificateur(valeur: int) : int
++ est_mort() : bool
++ frappe(cible: Personnage) : int
++ calculer_points_de_vie() : int (optionnel si centralisé)
 
 classes enfants 
-Héros :Humain, nain
-+depouiller (monstre,richesse)
-+reposer()
-+restaurer_points_vie()
-+affronter_monstres(monstre)
+Heros (abstract)
+-------------------------------
+- richesse_or : int
+- richesse_cuir : int
+-------------------------------
++ depouiller(monstre: Monstre)
++ restaurer_points_vie()
++ affronter(monstre: Monstre)
 
-Monstres : Loup, Orque, Dragonnet
-(depece,force,endurance,richesse)
+Humain
+-------------------------------
++ bonus : force +1, endurance +1 (sans modifier les vraies valeurs)
 
-Dés (min,max)
-+lance_de()
+Nain
+-------------------------------
++ bonus : endurance +2 (sans modifier la valeur de base)
+
+Monstre (abstract)
+-------------------------------
+- or : int
+- cuir : int
+- depecable : bool
+-------------------------------
++ generer_ressources()
 
 
+Loup
+-------------------------------
++ bonus : aucun
++ depecable : True (cuir)
+
+Orque
+-------------------------------
++ bonus : force +1
++ or (1d6)
+
+Dragonnet
+-------------------------------
++ bonus : endurance +1
++ or (1d6), cuir (1d4)
++ depecable : True
+
+
+| Monstre       | Bonus force | Bonus endurance | Or    | Cuir  | Dépeçable |
+| ------------- | ----------- | --------------- | ----- | ----- | --------- |
+| **Loup**      | 0           | 0               | ❌     | ✅ 1d4 | ✅         |
+| **Orque**     | +1          | 0               | ✅ 1d6 | ❌     | ❌         |
+| **Dragonnet** | 0           | +1              | ✅ 1d6 | ✅ 1d4 | ✅         |
+
+De
+-------------------------------
+- _min : int
+- _max : int
+-------------------------------
++ min : int (lecture seule)
++ max : int (lecture seule)
++ lancer() : int
+
+
+
+ZoneJeu
+-------------------------------
+- grille : List[List[str]]
+- monstres : List[Monstre]
+- heros : Heros
+-------------------------------
++ afficher_carte()
++ placer_monstres()
++ deplacer_heros(x: int, y: int)
++ verifier_combat()
++ jeu_termine() : bool
 
 ## Démarrage
 
