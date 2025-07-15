@@ -1,15 +1,24 @@
 from personnage import Personnage
 from de import De
+from personnage import lancer_4d6_garder_3_meilleurs
 import random
 types_monstres = ["loup", "orques", "dragonnets"]
 
 class Monstre(Personnage):
-    def __init__(self, endurance, force, points_vie, monstre):
+    def __init__(self, endurance, force, points_vie, monstre,x,y):
         self.monstre = monstre.lower()
+
+        # ✅ Générer aléatoirement si None
+        endurance = endurance if endurance is not None else lancer_4d6_garder_3_meilleurs()
+        force = force if force is not None else lancer_4d6_garder_3_meilleurs()
+
         # Bonus spécifiques AVANT super() pour que PV soit correct
         bonus_force = 1 if monstre == "orques" else 0
         bonus_endurance = 1 if monstre == "dragonnets" else 0
-        super().__init__(endurance + bonus_endurance, force + bonus_force, points_vie)
+
+        endurance += bonus_endurance
+        force += bonus_force
+        super().__init__(monstre,endurance, force, points_vie,x,y)
 
         self._monstre = monstre
         de4 = De(1, 4)
@@ -31,6 +40,13 @@ class Monstre(Personnage):
         else:
             self._richesse = {"or": 0, "cuir": 0}
             self.depecable = False
+
+    def symbole(self):
+        return {
+            "loup": "L",
+            "orque": "O",
+            "dragonnet": "D"
+        }[self.nom]
 
     def modificateur_force(self):
         """Bonus/malus basé sur la force réelle (avec bonus orque déjà inclus)"""

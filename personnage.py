@@ -10,6 +10,9 @@ def lancer_4d6_garder_3_meilleurs():
     des.sort(reverse=True)
     return sum(des[:3])
 def modificateur(caracteristique):
+    """
+    Calcule le modificateur associé à une caractéristique (force ou endurance).
+    """
     if caracteristique < 5:
         return -1
 
@@ -22,12 +25,24 @@ def modificateur(caracteristique):
 
 
 
-class Personnage(ABC):
 
-    def __init__(self, endurance, force, points_vie=None):
-        self._endurance =  endurance if endurance is not None else lancer_4d6_garder_3_meilleurs()
+class Personnage(ABC):
+    def __init__(self, nom, endurance=None, force=None, points_vie=None, x=None, y=None):
+        self.nom = nom
+
+        # Génération automatique si valeurs non fournies
+        self._endurance = endurance if endurance is not None else lancer_4d6_garder_3_meilleurs()
         self._force = force if force is not None else lancer_4d6_garder_3_meilleurs()
-        self._points_vie= points_vie if points_vie is not None else modificateur(self._endurance)
+
+        # Calcul des points de vie si non fournis
+        self._points_vie = points_vie if points_vie is not None else self.calculer_points_de_vie()
+
+        # Position sur le plateau
+        self.x = x
+        self.y = y
+
+        # Par défaut les monstres sont invisibles
+        self.est_visible = False
 
     @property
     def endurance(self):
@@ -39,18 +54,24 @@ class Personnage(ABC):
     def points_vie(self):
         return self._points_vie
     @points_vie.setter
-    def points_vie(self, points_vie):
-        self._points_vie = points_vie
+    def points_vie(self, pv):
+        self._points_vie =max(0, pv)
 
     def modificateur_force(self):
         return modificateur(self.force)
-
-    @abstractmethod
-    def frappe(self,monstre):
-        pass
+    def position(self):
+        return self.x, self.y
 
     def est_vivant(self):
         return self.points_vie > 0
+
+
+    @abstractmethod
+    def frappe(self, cible):
+        """
+        Méthode abstraite : chaque sous-classe doit définir comment elle frappe.
+        """
+        pass
 
     def calculer_points_de_vie(self):
         return self._endurance + modificateur(self._endurance)
