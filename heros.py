@@ -65,6 +65,7 @@ class Heros(Personnage):
     def __str__(self):
         return f"{self.type_heros.capitalize()} - For: {self.force}, End: {self.endurance}, PV: {self.points_vie}, Or: {self.richesse_or}, Cuir: {self.richesse_cuir}"
 
+
 if __name__ == '__main__':
     from monstres import Monstre  # décalé ici pour éviter la boucle
 
