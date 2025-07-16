@@ -35,7 +35,8 @@ class Personnage(ABC):
         nom: str,
   
         x: int = 0,
-        y: int = 0
+        y: int = 0,
+      
     ):
         self.nom = nom
 
@@ -47,6 +48,7 @@ class Personnage(ABC):
         # Position sur le plateau
         self.x = x
         self.y = y
+   
 
         self.est_visible = False
 

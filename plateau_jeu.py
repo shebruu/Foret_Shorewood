@@ -1,4 +1,5 @@
 import random
+from direction import Direction
 from heros import Heros
 from monstres import Monstre
 

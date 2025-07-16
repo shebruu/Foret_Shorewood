@@ -24,9 +24,9 @@
 +-------------------+
 |      Heros        |
 +-------------------+
+| - _type_heros = nom     |
 | - _richesse_or    |
 | - _richesse_cuir  |
-| - _type_heros     |
 | - est_visible     |
 +-------------------+
 | + __init__(...)            
@@ -45,7 +45,7 @@
 +----------------------+
 |       Monstre        |
 +----------------------+
-| - _monstre: str      |
+| - _monstre: str =monstre     |
 | - _richesse: dict    |
 | - depecable: bool    |
 +----------------------+

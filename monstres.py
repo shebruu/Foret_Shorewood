@@ -8,7 +8,8 @@ types_monstres = {
     "dragonnets": "D"
 }
 class Monstre(Personnage):
-    def __init__(self, monstre,x,y):
+    def __init__(self, monstre,x=0,y=0):
+        super().__init__(nom=monstre,x=x,y=y)
         self.monstre = monstre.lower()
 
         endurance = endurance if endurance is not None else lancer_4d6_garder_3_meilleurs()

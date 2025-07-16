@@ -1,8 +1,16 @@
-
+from direction import Direction
 from heros import Heros
 from monstres import Monstre
 from plateau_jeu import Jeu
 
+import traceback
+
+try:
+   
+    monstres = plateau.placer_monstres()
+except Exception as e:
+    print("Une erreur est survenue :")
+    traceback.print_exc()
 
 if __name__ == '__main__':
     """ 

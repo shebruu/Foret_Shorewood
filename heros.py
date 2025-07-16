@@ -6,12 +6,14 @@ import random
 types_heros=["humain", "nain"]
 
 class Heros(Personnage):
-    def __init__(self, type_heros="humain", x=0, y=0):
+    def __init__(self, type_heros,x=0,y=0):
+       super().__init__(nom=type_heros, x=x, y=y)
        self._richesse_or = 0
        self._richesse_cuir = 0
 
        self._typ=type_heros
        self.est_visible = True
+
 
     @property
     def richesse_or(self):
