@@ -1,61 +1,122 @@
 +-----------------------------+
 |        Personnage           | <<abstract>>
 +-----------------------------+
-| - nom : str                 |      |
+| + Force        |     
+  + Endurance :int
+  + pv : int
 | - x : int                   |
 | - y : int                   |
-| - est_visible : bool        |
 +-----------------------------+
 | + __init__(...)             |
-| + endurance |
-| + force  |
-| + points_vie |
-| + points_vie      |
-| + modificateur_force() : int|
-| + position() : (int, int)   |
-| + est_vivant() : bool       |
 | + frappe(cible) : None      | (abstract)
+| + est_vivant() : bool       |
+| + modificateur_force(int) : int|
+
+| + endurance | getter :int
+| + force  | getter : int
+| + points_vie | getter, setter :int
+| + position() : (int, int)   
+|
   + creer_aleatoire () : 
 +-----------------------------+
 +-------------------+                                                                       
           ^
-          |   hérite de personnage
+          |   hérite de Personnage et referénce  le De
           |
 +-------------------+
 |      Heros        |
 +-------------------+
-| - _type_heros = nom     |
-| - _richesse_or    |
-| - _richesse_cuir  |
-| - est_visible     |
+| + cuir     |
+  + or
+  + nom: string
+     |
 +-------------------+
 | + __init__(...)            
-  + richesse_or  |
-| + richesse_cuir|
-| + type_heros  |
+  + reposer()|
+| + depouiller(cible)        |
+
 | + modificateur_force()     |                       
 | + frappe(cible)            |
-| + depouiller(cible)        |
-| + restaurer_points_vie()   |
-| + __str__()                |
+| + __str__()         
 +-------------------+
 
-           ^  hérite de personnage 
+           ^  hérite de Personnage 
            |
 +----------------------+
 |       Monstre        |
 +----------------------+
-| - _monstre: str =monstre     |
-| - _richesse: dict    |
-| - depecable: bool    |
+ + Or: int
 +----------------------+
 | + __init__(...)     
-| + monstre: str       |
-| + force: int         |
-| + richesse: dict     |
-| + symbole(): str     |
-| + modificateur_force(): int |
+|  
+
 | + frappe(cible): int |
 | + __str__(): str     |
+ |
++----------------------+
+
++----------------------+
+|       Jeu        |
++----------------------+
++ grille[15][15]
++ personnages: list(personnage)
++----------------------+
+| + __init__(...)     
+| + combat  |
+| + deplacer_heros: bool      |
+| + afficher_matrice: str   |
+
+| + est_fini: int   |
+| + verifier_combat(): str     |
+| + placer_monstres(): int |
+| + espaces_libre: int |
+| + detecter_monstres|
+ |
++----------------------+
+
+Humain        hérite de Heros 
+
++----------------------+
+
+Nain       hérite de Heros
++----------------------+
+
+
++----------------------+
+|      Loup        |   hérite de Monstre 
++----------------------+
++cuir : 
++----------------------+
+ |+ 0/4
++----------------------+
+
++----------------------+
+|      dragonnet        |
++----------------------+
++cuir 
++or
++----------------------+
+| +  0/4
+| +  0/6
++----------------------+
++----------------------+
+|     orque         |
++----------------------+
++or
++----------------------+ 
+|+ 0/6
+
+
+
+
+statique 
++----------------------+
+|      De        |
++----------------------+
++min :int
++max : int|
++----------------------+
+| + __init__(...)     
+|+ lancer_de (min,max)
  |
 +----------------------+

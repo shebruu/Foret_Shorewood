@@ -7,7 +7,7 @@ import traceback
 
 try:
    
-    monstres = plateau.placer_monstres()
+    monstres = Jeu.placer_monstres()
 except Exception as e:
     print("Une erreur est survenue :")
     traceback.print_exc()

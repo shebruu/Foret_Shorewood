@@ -6,8 +6,7 @@ from monstres import Monstre
 TAILLE = 15
 class Jeu:
     def __init__(self,heros,monstres):
-     
-        self.TAILLE_PLATEAU = TAILLE
+
         self.TAILLE_PLATEAU = TAILLE
         self.heros = heros
         self.monstres = monstres
@@ -50,16 +49,7 @@ class Jeu:
                 if abs(self.heros.x - m.x) + abs(self.heros.y - m.y) == 1:
                     m.est_visible = True
                     print(f"💥 Combat avec un {m.monstre} !")
-                    while m.points_vie > 0 and self.heros.points_vie > 0:
-                        degats = self.heros.frappe(m)
-                        print(f"Héros frappe : -{degats} PV à {m.monstre}")
-                        if m.points_vie > 0:
-                            degats = m.frappe(self.heros)
-                            print(f"{m.monstre} frappe : -{degats} PV au héros")
-                    if self.heros.points_vie <= 0:
-                        print("💀 Le héros est mort.")
-                    elif m.points_vie <= 0:
-                        print(f"✅ {m.monstre} vaincu !")
+                    self.combat(monstre)
 
     def placer_monstres(self,nb=10):
         monstres_places = []

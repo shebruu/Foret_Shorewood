@@ -11,5 +11,5 @@ class De:
     @property
     def maximum(self):
         return self._max
-    def lancer_de(self):
+    def lancer_de(self,minim,maxim):
         return random.randint(self._min, self._max)
