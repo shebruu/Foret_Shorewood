@@ -13,7 +13,7 @@ if __name__ == '__main__':
 """
 
     # Créer un héros au centre
-    heros = Heros(force=12, endurance=10, points_vie=None, type_heros="humain", x=7, y=7)
+    heros = Heros( type_heros="humain", x=7, y=7)
 
 
     plateau = Jeu(heros, [])

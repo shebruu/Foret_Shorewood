@@ -5,8 +5,7 @@ from monstres import Monstre
 TAILLE = 15
 class Jeu:
     def __init__(self,heros,monstres):
-        if heros.x is None or heros.y is None:
-            raise ValueError("Le héros doit avoir une position (x, y) définie.")
+     
         self.TAILLE_PLATEAU = TAILLE
         self.TAILLE_PLATEAU = TAILLE
         self.heros = heros
@@ -69,7 +68,7 @@ class Jeu:
             x, y = random.randint(0, self.TAILLE_PLATEAU-1), random.randint(0, self.TAILLE_PLATEAU-1)
             if self.espace_libre(x, y, monstres_places):
                 monstre_type = random.choice(["loup", "orques", "dragonnets"])
-                m = Monstre(force=None, endurance=None, points_vie=None, monstre=monstre_type, x=x, y=y)
+                m = Monstre(monstre=monstre_type, x=x, y=y)
                 monstres_places.append(m)
             essais += 1
         return monstres_places

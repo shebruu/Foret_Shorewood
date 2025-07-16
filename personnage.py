@@ -27,23 +27,31 @@ def modificateur(caracteristique):
 
 
 class Personnage(ABC):
-    def __init__(self, nom, endurance=None, force=None, points_vie=None, x=None, y=None):
+    """
+    Classe abstraite représentant un personnage du jeu avec des caractéristiques principales et des méthodes de base.
+    """
+    def __init__(
+        self, 
+        nom: str,
+  
+        x: int = 0,
+        y: int = 0
+    ):
         self.nom = nom
 
         # Génération automatique si valeurs non fournies
-        self._endurance = endurance if endurance is not None else lancer_4d6_garder_3_meilleurs()
-        self._force = force if force is not None else lancer_4d6_garder_3_meilleurs()
-
-        # Calcul des points de vie si non fournis
-        self._points_vie = points_vie if points_vie is not None else self.calculer_points_de_vie()
+        self._endurance = lancer_4d6_garder_3_meilleurs()
+        self._force = lancer_4d6_garder_3_meilleurs()
+        self._points_vie = self.calculer_points_de_vie()
 
         # Position sur le plateau
         self.x = x
         self.y = y
 
-        # Par défaut les monstres sont invisibles
         self.est_visible = False
 
+    def calculer_points_de_vie(self):
+        return self._endurance * 2  
     @property
     def endurance(self):
         return self._endurance
@@ -59,7 +67,8 @@ class Personnage(ABC):
 
     def modificateur_force(self):
         return modificateur(self.force)
-    def position(self):
+
+    def position(self) -> tuple[int, int]:
         return self.x, self.y
 
     def est_vivant(self):
@@ -68,11 +77,15 @@ class Personnage(ABC):
 
     @abstractmethod
     def frappe(self, cible):
-        """
-        Méthode abstraite : chaque sous-classe doit définir comment elle frappe.
-        """
+
         pass
 
-    def calculer_points_de_vie(self):
-        return self._endurance + modificateur(self._endurance)
+    def __repr__(self):
+        return f"<Personnage nom={self.nom} PV={self.points_vie} pos=({self.x},{self.y})>"
+
+    @classmethod
+    def creer_aleatoire(cls, nom: str, x: int = 0, y: int = 0):
+        endurance = lancer_4d6_garder_3_meilleurs()
+        force = lancer_4d6_garder_3_meilleurs()
+        return cls(nom, endurance, force, None, x, y)
 

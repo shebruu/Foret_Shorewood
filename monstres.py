@@ -2,13 +2,15 @@ from personnage import Personnage
 from de import De
 from personnage import lancer_4d6_garder_3_meilleurs
 import random
-types_monstres = ["loup", "orques", "dragonnets"]
-
+types_monstres = {
+    "loup": "L",
+    "orques": "O",
+    "dragonnets": "D"
+}
 class Monstre(Personnage):
-    def __init__(self, endurance, force, points_vie, monstre,x,y):
+    def __init__(self, monstre,x,y):
         self.monstre = monstre.lower()
 
-        # ✅ Générer aléatoirement si None
         endurance = endurance if endurance is not None else lancer_4d6_garder_3_meilleurs()
         force = force if force is not None else lancer_4d6_garder_3_meilleurs()
 
@@ -18,7 +20,7 @@ class Monstre(Personnage):
 
         endurance += bonus_endurance
         force += bonus_force
-        super().__init__(monstre,endurance, force, points_vie,x,y)
+      
 
         self._monstre = monstre
         de4 = De(1, 4)
@@ -40,13 +42,30 @@ class Monstre(Personnage):
         else:
             self._richesse = {"or": 0, "cuir": 0}
             self.depecable = False
+    @property
+    def force(self):
+        return self._force
+
+    @property
+    def monstre(self):
+        return self._monstre
+
+    @monstre.setter
+    def monstre(self, value):
+        if value in types_monstres:
+            self._monstre = value
+
+    @property
+    def richesse(self):
+        return self._richesse
+
+    @richesse.setter
+    def richesse(self, value):
+        self._richesse = value
+
 
     def symbole(self):
-        return {
-            "loup": "L",
-            "orque": "O",
-            "dragonnet": "D"
-        }[self.nom]
+        return types_monstres.get(self.monstre, "?")
 
     def modificateur_force(self):
         """Bonus/malus basé sur la force réelle (avec bonus orque déjà inclus)"""
@@ -68,26 +87,7 @@ class Monstre(Personnage):
             cible.points_vie = max(0, cible.points_vie - degats)
         return degats
 
-    @property
-    def force(self):
-        return self._force
 
-    @property
-    def monstre(self):
-        return self._monstre
-
-    @monstre.setter
-    def monstre(self, value):
-        if value in types_monstres:
-            self._monstre = value
-
-    @property
-    def richesse(self):
-        return self._richesse
-
-    @richesse.setter
-    def richesse(self, value):
-        self._richesse = value
 
     def __str__(self):
         return (f"{self._monstre.capitalize()} - For: {self.force} "
