@@ -1,5 +1,6 @@
 from abc import ABC
 from personnage import Personnage
+from monstres import  Monstre
 from de import De
 import random
 
@@ -26,6 +27,20 @@ class Heros(Personnage):
     def type_heros(self):
         return self._typ
 
+    def reposer(self):
+        _points_vie = self.points_vie()
+
+    def depouiller(self, cible: "Monstre"):
+        if cible.points_vie > 0:
+            print("Impossible de dépouiller un monstre encore vivant !")
+            return
+
+        # Accès via le dictionnaire 'richesse'
+        self._richesse_or += cible.richesse.get("or", 0)
+        self._richesse_cuir += cible.richesse.get("cuir",0)
+        cible.richesse["or"] = 0
+        cible.richesse["cuir"] = 0
+
     def modificateur_force(self):
         bonus=0
         if self.force < 5:
@@ -46,24 +61,8 @@ class Heros(Personnage):
         dommages = self.modificateur_force() + rand
         if cible.points_vie > 0:
             cible.points_vie = max(0, cible.points_vie - dommages)
-         
+
         return dommages
-
-
-
-    def depouiller(self, cible: "Monstre"):
-        if cible.points_vie > 0:
-            print("Impossible de dépouiller un monstre encore vivant !")
-            return
-
-        # Accès via le dictionnaire 'richesse'
-        self._richesse_or += cible.richesse.get("or", 0)
-        self._richesse_cuir += cible.richesse.get("cuir",0)
-        cible.richesse["or"] = 0
-        cible.richesse["cuir"] = 0
-
-    def restaurer_points_vie(self):
-        self._points_vie = self.calculer_points_de_vie()
     def __str__(self):
         return f"{self.type_heros.capitalize()} - For: {self.force}, End: {self.endurance}, PV: {self.points_vie}, Or: {self.richesse_or}, Cuir: {self.richesse_cuir}"
 

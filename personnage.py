@@ -43,7 +43,7 @@ class Personnage(ABC):
         # Génération automatique si valeurs non fournies
         self._endurance = lancer_4d6_garder_3_meilleurs()
         self._force = lancer_4d6_garder_3_meilleurs()
-        self._points_vie = self.calculer_points_de_vie()
+
 
         # Position sur le plateau
         self.x = x
@@ -52,9 +52,7 @@ class Personnage(ABC):
 
         self.est_visible = False
 
-    def calculer_points_de_vie(self):
-        return self._endurance * 2  
-    @property
+
     def endurance(self):
         return self._endurance
     @property
@@ -67,27 +65,22 @@ class Personnage(ABC):
     def points_vie(self, pv):
         self._points_vie =max(0, pv)
 
-    def modificateur_force(self):
-        return modificateur(self.force)
-
-    def position(self) -> tuple[int, int]:
-        return self.x, self.y
-
-    def est_vivant(self):
-        return self.points_vie > 0
-
-
     @abstractmethod
     def frappe(self, cible):
 
         pass
+    def est_vivant(self):
+        return self.points_vie > 0
+    def modificateur_force(self):
+        return modificateur(self.force)
+
+
+
+    def position(self) -> tuple[int, int]:
+        return self.x, self.y
 
     def __repr__(self):
         return f"<Personnage nom={self.nom} PV={self.points_vie} pos=({self.x},{self.y})>"
 
-    @classmethod
-    def creer_aleatoire(cls, nom: str, x: int = 0, y: int = 0):
-        endurance = lancer_4d6_garder_3_meilleurs()
-        force = lancer_4d6_garder_3_meilleurs()
-        return cls(nom, endurance, force, None, x, y)
+
 
