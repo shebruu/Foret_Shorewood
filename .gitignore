@@ -1,3 +1,9 @@
 
 
 .idea/
+*.iml
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
