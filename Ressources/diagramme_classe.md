@@ -12,12 +12,7 @@
 | + est_vivant() : bool       |
 | + modificateur_force(int) : int|
 
-| + endurance | getter :int
-| + force  | getter : int
-| + points_vie | getter, setter :int
-| + position() : (int, int)   
-|
-  + creer_aleatoire () : 
+
 +-----------------------------+
 +-------------------+                                                                       
           ^
@@ -34,10 +29,7 @@
 | + __init__(...)            
   + reposer()|
 | + depouiller(cible)        |
-
-| + modificateur_force()     |                       
-| + frappe(cible)            |
-| + __str__()         
+   
 +-------------------+
 
            ^  hérite de Personnage 
@@ -66,12 +58,6 @@
 | + deplacer_heros: bool      |
 | + afficher_matrice: str   |
 
-| + est_fini: int   |
-| + verifier_combat(): str     |
-| + placer_monstres(): int |
-| + espaces_libre: int |
-| + detecter_monstres|
- |
 +----------------------+
 
 Humain        hérite de Heros 

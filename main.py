@@ -1,40 +1,50 @@
-from direction import Direction
+import os
+import time
+import keyboard
+
 from heros import Heros
 from monstres import Monstre
 from plateau_jeu import Jeu
 
-import traceback
 
-try:
-   
-    monstres = Jeu.placer_monstres()
-except Exception as e:
-    print("Une erreur est survenue :")
-    traceback.print_exc()
-
-if __name__ == '__main__':
-    """ 
-    hero1 = Heros(force=12, endurance=10, points_vie=22, type_heros="humain")
-    monstre1 = Monstre(force=12, endurance=10,points_vie=22, monstre="orques")
-
-    print("frappe  1", hero1.frappe(monstre1))
-"""
-
-    # Créer un héros au centre
-    heros = Heros( type_heros="humain", x=7, y=7)
+def effacer_console():
+    os.system("cls" if os.name == "nt" else "clear")
 
 
-    plateau = Jeu(heros, [])
-    monstres = plateau.placer_monstres()
-    plateau.monstres = monstres
+def main():
+    # Héros au centre du plateau 15x15
+    heros = Heros(type_heros="humain", x=7, y=7)
+    jeu = Jeu(heros, [])
+    jeu.monstres = jeu.placer_monstres(10)
 
-    # Boucle principale
-    while not plateau.est_fini():
-        plateau.afficher()
-        direction = input("Déplace-toi (z: haut, s: bas, q: gauche, d: droite) : ").lower()
-        plateau.deplacer_heros(direction)
+    # Correspondance touches/flèches → directions classiques 'z', 's', 'q', 'd'
+    directions = {"up": "z", "down": "s", "left": "q", "right": "d"}
+
+    effacer_console()
+    jeu.afficher()
+    try:
+        while not jeu.est_fini():
+            mouvement = False
+            for key, dir_lettre in directions.items():
+                if keyboard.is_pressed(key):
+                    jeu.deplacer_heros(dir_lettre)
+                    effacer_console()
+                    jeu.afficher()
+                    mouvement = True
+                    time.sleep(0.18)
+                    break
+            if keyboard.is_pressed("esc"):
+                print("Arrêt du jeu demandé (ESC).")
+                break
+            time.sleep(0.05)
+    except KeyboardInterrupt:
+        print("Programme arrêté proprement.")
 
     if heros.points_vie <= 0:
         print("💀 Tu es mort.")
     else:
         print("🏆 Tous les monstres sont vaincus !")
+
+
+if __name__ == "__main__":
+    main()
