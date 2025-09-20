@@ -48,7 +48,6 @@ Possèdent des ressources (or, cuir) et parfois dépouillables.
 Classe utilitaire pour gérer des tirages aléatoires dans un intervalle (min/max).  
 
 ### ZoneJeu  
-Représente la grille de jeu :  
 - placement des héros et monstres,  
 - déplacements,  
 - vérification des combats,  
