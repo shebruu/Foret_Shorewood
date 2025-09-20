@@ -6,7 +6,7 @@ Projet pédagogique pour apprendre la programmation orientée objet
 
 
 
-## ✨ Fonctionnalités principales
+## Fonctionnalités principales
 Permet de créer des personnages de types Héros ou Monstres
 Chaque Personnage a une Endurance, Force, Points de vie. À chaque tour, 4 dés sont lancé pour déterminer la force et l endurace du personnage
 - Organise la bataille entre les héros et monstres.
@@ -20,7 +20,6 @@ Chaque Personnage a une Endurance, Force, Points de vie. À chaque tour, 4 dés 
           Heros         Monstre
            ▲  ▲           ▲   ▲
         Humain Nain   Loup Orque Dragonnet
-
 
 
 classes abstraite
@@ -65,7 +64,6 @@ Monstre (abstract)
 - depecable : bool
 -------------------------------
 + generer_ressources()
-
 
 Loup
 -------------------------------
@@ -113,14 +111,5 @@ ZoneJeu
 + verifier_combat()
 + jeu_termine() : bool
 
-## Démarrage
 
-1. Clone le projet :
-   ```bash
-   git clone <url_du_repo>
-   cd <nom_du_dossier>
-2. Lance le fichier principal pour découvrir :
-   python main.py
 
-Structure : avec import absolu car pas de modle, main.py est ds le  meme dossier 
-from voiture import Voiture
